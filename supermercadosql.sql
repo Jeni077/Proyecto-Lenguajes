@@ -651,9 +651,8 @@ BEGIN
     RETURN v_avg_price;
 END;
 
-14. Obtener el producto con mayor stock
-sql
-Copiar código
+--14. Obtener el producto con mayor stock
+
 CREATE OR REPLACE FUNCTION get_product_with_highest_stock RETURN VARCHAR IS
     v_product_name VARCHAR(255);
 BEGIN
@@ -663,12 +662,9 @@ BEGIN
     WHERE stock_quantity = (SELECT MAX(stock_quantity) FROM products);
     RETURN v_product_name;
 END;
-/
 
+--15. Calcular el total de órdenes de un proveedor específico
 
-15. Calcular el total de órdenes de un proveedor específico
-sql
-Copiar código
 CREATE OR REPLACE FUNCTION calculate_supplier_orders_total(
     p_supplier_id IN INT
 ) RETURN DECIMAL IS
@@ -683,9 +679,8 @@ END;
 /
 
 
-16. Obtener la cantidad de productos suministrados por un proveedor
-sql
-Copiar código
+--16. Obtener la cantidad de productos suministrados por un proveedor
+
 CREATE OR REPLACE FUNCTION count_products_by_supplier(
     p_supplier_id IN INT
 ) RETURN INT IS
@@ -697,12 +692,11 @@ BEGIN
     WHERE supplier_id = p_supplier_id;
     RETURN v_count;
 END;
-/
 
 
-17. Obtener la fecha del primer pedido de un cliente
-sql
-Copiar código
+
+--17. Obtener la fecha del primer pedido de un cliente
+
 CREATE OR REPLACE FUNCTION get_first_order_date(
     p_customer_id IN INT
 ) RETURN DATE IS
@@ -717,9 +711,8 @@ END;
 /
 
 
-18. Calcular el total de stock en el inventario
-sql
-Copiar código
+--18. Calcular el total de stock en el inventario
+
 CREATE OR REPLACE FUNCTION calculate_total_stock RETURN INT IS
     v_total_stock INT;
 BEGIN
@@ -728,12 +721,9 @@ BEGIN
     FROM products;
     RETURN v_total_stock;
 END;
-/
 
+--19. Obtener el nombre de la categoría de un producto
 
-19. Obtener el nombre de la categoría de un producto
-sql
-Copiar código
 CREATE OR REPLACE FUNCTION get_category_name(
     p_product_id IN INT
 ) RETURN VARCHAR IS
@@ -746,12 +736,9 @@ BEGIN
     WHERE p.product_id = p_product_id;
     RETURN v_category_name;
 END;
-/
 
+--20. Calcular el precio total de un pedido a proveedores
 
-20. Calcular el precio total de un pedido a proveedores
-sql
-Copiar código
 CREATE OR REPLACE FUNCTION calculate_supplier_order_total(
     p_supplier_order_id IN INT
 ) RETURN DECIMAL IS
@@ -763,12 +750,9 @@ BEGIN
     WHERE supplier_order_id = p_supplier_order_id;
     RETURN v_total;
 END;
-/
 
+--21. Determinar si un cliente es frecuente (más de 5 pedidos)
 
-21. Determinar si un cliente es frecuente (más de 5 pedidos)
-sql
-Copiar código
 CREATE OR REPLACE FUNCTION is_frequent_customer(
     p_customer_id IN INT
 ) RETURN VARCHAR IS
@@ -780,12 +764,9 @@ BEGIN
     WHERE customer_id = p_customer_id;
     RETURN CASE WHEN v_order_count > 5 THEN 'Yes' ELSE 'No' END;
 END;
-/
 
+--22. Obtener el producto más caro de una categoría
 
-22. Obtener el producto más caro de una categoría
-sql
-Copiar código
 CREATE OR REPLACE FUNCTION get_most_expensive_product_in_category(
     p_category_id IN INT
 ) RETURN VARCHAR IS
@@ -798,12 +779,9 @@ BEGIN
     AND price = (SELECT MAX(price) FROM products WHERE category_id = p_category_id);
     RETURN v_product_name;
 END;
-/
 
+--23. Calcular el monto total de ventas en un período
 
-23. Calcular el monto total de ventas en un período
-sql
-Copiar código
 CREATE OR REPLACE FUNCTION calculate_sales_in_period(
     p_start_date IN DATE,
     p_end_date IN DATE
@@ -816,12 +794,9 @@ BEGIN
     WHERE order_date BETWEEN p_start_date AND p_end_date;
     RETURN v_sales_total;
 END;
-/
 
+--24. Obtener la cantidad de productos con bajo stock
 
-24. Obtener la cantidad de productos con bajo stock
-sql
-Copiar código
 CREATE OR REPLACE FUNCTION count_low_stock_products(
     p_min_stock IN INT
 ) RETURN INT IS
@@ -833,12 +808,9 @@ BEGIN
     WHERE stock_quantity < p_min_stock;
     RETURN v_count;
 END;
-/
 
+--25. Obtener el proveedor más frecuente de pedidos
 
-25. Obtener el proveedor más frecuente de pedidos
-sql
-Copiar código
 CREATE OR REPLACE FUNCTION get_most_frequent_supplier RETURN VARCHAR IS
     v_supplier_name VARCHAR(255);
 BEGIN
@@ -851,41 +823,5 @@ BEGIN
     FETCH FIRST 1 ROWS ONLY;
     RETURN v_supplier_name;
 END;
-/
-
-Sí, todas estas funciones están escritas en PL/SQL, el lenguaje de programación que utiliza Oracle, por lo que deberían funcionar perfectamente en tu base de datos de Oracle. Sin embargo, hay algunos detalles que podrías necesitar verificar o ajustar dependiendo de tu configuración específica:
-
-Aspectos a revisar:
-Estructura de las tablas:
-Asegúrate de que las tablas y columnas mencionadas en las funciones coincidan con las de tu base de datos.
-Por ejemplo, revisa que los nombres de las tablas (products, orders, etc.) y columnas (price, stock_quantity, etc.) sean exactamente como se describen en tu proyecto.
-Tipos de datos:
-Los tipos de datos como DECIMAL y VARCHAR son compatibles con Oracle, pero Oracle generalmente usa:
-NUMBER en lugar de DECIMAL.
-VARCHAR2 en lugar de VARCHAR.
-Puedes reemplazarlos si tu base de datos requiere estos tipos de datos.
-Ejemplo:
-sql
-Copiar código
-RETURN NUMBER IS
 
 
-Manejo de claves foráneas:
-Asegúrate de que las relaciones entre tablas, como claves foráneas y referencias, estén bien definidas para evitar errores en las consultas dentro de las funciones.
-Compatibilidad de consultas:
-Las funciones como FETCH FIRST 1 ROWS ONLY (utilizada en la función 25) requieren Oracle 12c o superior. Si estás usando una versión anterior, puedes reemplazarla por:
-sql
-Copiar código
-AND ROWNUM = 1
-
-
-
-Prueba de las funciones:
-Recomendación: Antes de implementar todas las funciones, prueba cada una por separado para verificar que se ejecuten correctamente en tu entorno.
-Usa un bloque BEGIN para ejecutar y depurar:
-sql
-Copiar código
-BEGIN
-    DBMS_OUTPUT.PUT_LINE(get_total_price(1, 10));
-END;
-/
