@@ -473,3 +473,419 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2024-11-05 23:36:19
+-- Dump completed on 2024-11-05 23:36:19
+
+
+
+-- FUNCIONES 
+
+--1. Obtener el precio total de un producto por cantidad
+
+CREATE OR REPLACE FUNCTION get_total_price(
+    p_product_id IN INT,
+    p_quantity IN INT
+) RETURN DECIMAL IS
+    v_price DECIMAL(10, 2);
+BEGIN
+    SELECT price INTO v_price FROM products WHERE product_id = p_product_id;
+    RETURN v_price * p_quantity;
+END;
+
+--2. Calcular el stock restante después de una venta
+
+CREATE OR REPLACE FUNCTION calculate_stock_after_sale(
+    p_product_id IN INT,
+    p_quantity_sold IN INT
+) RETURN INT IS
+    v_stock INT;
+BEGIN
+    SELECT stock_quantity INTO v_stock FROM products WHERE product_id = p_product_id;
+    RETURN v_stock - p_quantity_sold;
+END;
+
+
+
+--3. Obtener el nombre del proveedor de un producto
+
+CREATE OR REPLACE FUNCTION get_supplier_name(
+    p_product_id IN INT
+) RETURN VARCHAR IS
+    v_supplier_name VARCHAR(255);
+BEGIN
+    SELECT s.name
+    INTO v_supplier_name
+    FROM suppliers s
+    JOIN supplier_products sp ON s.supplier_id = sp.supplier_id
+    WHERE sp.product_id = p_product_id;
+    RETURN v_supplier_name;
+END;
+
+
+
+--4. Calcular el total de una orden
+
+CREATE OR REPLACE FUNCTION calculate_order_total(
+    p_order_id IN INT
+) RETURN DECIMAL IS
+    v_total DECIMAL(10, 2);
+BEGIN
+    SELECT SUM(quantity * unit_price)
+    INTO v_total
+    FROM order_details
+    WHERE order_id = p_order_id;
+    RETURN v_total;
+END;
+
+--5. Determinar si un producto está en stock
+
+CREATE OR REPLACE FUNCTION is_product_in_stock(
+    p_product_id IN INT
+) RETURN VARCHAR IS
+    v_stock INT;
+BEGIN
+    SELECT stock_quantity INTO v_stock FROM products WHERE product_id = p_product_id;
+    RETURN CASE WHEN v_stock > 0 THEN 'Yes' ELSE 'No' END;
+END;
+
+--6. Obtener el descuento aplicable para un producto
+
+CREATE OR REPLACE FUNCTION get_discount(
+    p_product_id IN INT
+) RETURN DECIMAL IS
+    v_discount DECIMAL(10, 2);
+BEGIN
+    -- Supongamos que el descuento se define en una tabla llamada discounts
+    SELECT COALESCE(discount_percentage, 0)
+    INTO v_discount
+    FROM discounts
+    WHERE product_id = p_product_id;
+    RETURN v_discount;
+END;
+
+--7. Contar productos en una categoría específica
+
+CREATE OR REPLACE FUNCTION count_products_by_category(
+    p_category_id IN INT
+) RETURN INT IS
+    v_count INT;
+BEGIN
+    SELECT COUNT(*) INTO v_count FROM products WHERE category_id = p_category_id;
+    RETURN v_count;
+END;
+
+--8. Obtener la fecha del último pedido de un cliente
+
+CREATE OR REPLACE FUNCTION get_last_order_date(
+    p_customer_id IN INT
+) RETURN DATE IS
+    v_last_date DATE;
+BEGIN
+    SELECT MAX(order_date) INTO v_last_date FROM orders WHERE customer_id = p_customer_id;
+    RETURN v_last_date;
+END;
+
+--9. Calcular el total de ventas de un empleado
+
+CREATE OR REPLACE FUNCTION calculate_employee_sales(
+    p_employee_id IN INT
+) RETURN DECIMAL IS
+    v_sales_total DECIMAL(10, 2);
+BEGIN
+    SELECT SUM(o.total_amount)
+    INTO v_sales_total
+    FROM orders o
+    WHERE o.employee_id = p_employee_id;
+    RETURN v_sales_total;
+END;
+
+--10. Obtener la cantidad de pedidos de un cliente
+
+CREATE OR REPLACE FUNCTION count_orders_by_customer(
+    p_customer_id IN INT
+) RETURN INT IS
+    v_order_count INT;
+BEGIN
+    SELECT COUNT(*) INTO v_order_count FROM orders WHERE customer_id = p_customer_id;
+    RETURN v_order_count;
+END;
+
+--11. Calcular el total gastado por un cliente
+
+CREATE OR REPLACE FUNCTION calculate_customer_total_spent(
+    p_customer_id IN INT
+) RETURN DECIMAL IS
+    v_total_spent DECIMAL(10, 2);
+BEGIN
+    SELECT SUM(o.total_amount)
+    INTO v_total_spent
+    FROM orders o
+    WHERE o.customer_id = p_customer_id;
+    RETURN v_total_spent;
+END;
+
+--12. Obtener el nombre completo de un cliente
+
+CREATE OR REPLACE FUNCTION get_customer_name(
+    p_customer_id IN INT
+) RETURN VARCHAR IS
+    v_name VARCHAR(255);
+BEGIN
+    SELECT CONCAT(first_name, ' ', last_name)
+    INTO v_name
+    FROM customers
+    WHERE customer_id = p_customer_id;
+    RETURN v_name;
+END;
+
+--13. Calcular el promedio de precio de los productos en una categoría
+
+CREATE OR REPLACE FUNCTION calculate_avg_price_by_category(
+    p_category_id IN INT
+) RETURN DECIMAL IS
+    v_avg_price DECIMAL(10, 2);
+BEGIN
+    SELECT AVG(price)
+    INTO v_avg_price
+    FROM products
+    WHERE category_id = p_category_id;
+    RETURN v_avg_price;
+END;
+
+14. Obtener el producto con mayor stock
+sql
+Copiar código
+CREATE OR REPLACE FUNCTION get_product_with_highest_stock RETURN VARCHAR IS
+    v_product_name VARCHAR(255);
+BEGIN
+    SELECT name
+    INTO v_product_name
+    FROM products
+    WHERE stock_quantity = (SELECT MAX(stock_quantity) FROM products);
+    RETURN v_product_name;
+END;
+/
+
+
+15. Calcular el total de órdenes de un proveedor específico
+sql
+Copiar código
+CREATE OR REPLACE FUNCTION calculate_supplier_orders_total(
+    p_supplier_id IN INT
+) RETURN DECIMAL IS
+    v_total DECIMAL(10, 2);
+BEGIN
+    SELECT SUM(total_amount)
+    INTO v_total
+    FROM supplier_orders
+    WHERE supplier_id = p_supplier_id;
+    RETURN v_total;
+END;
+/
+
+
+16. Obtener la cantidad de productos suministrados por un proveedor
+sql
+Copiar código
+CREATE OR REPLACE FUNCTION count_products_by_supplier(
+    p_supplier_id IN INT
+) RETURN INT IS
+    v_count INT;
+BEGIN
+    SELECT COUNT(*)
+    INTO v_count
+    FROM supplier_products
+    WHERE supplier_id = p_supplier_id;
+    RETURN v_count;
+END;
+/
+
+
+17. Obtener la fecha del primer pedido de un cliente
+sql
+Copiar código
+CREATE OR REPLACE FUNCTION get_first_order_date(
+    p_customer_id IN INT
+) RETURN DATE IS
+    v_first_date DATE;
+BEGIN
+    SELECT MIN(order_date)
+    INTO v_first_date
+    FROM orders
+    WHERE customer_id = p_customer_id;
+    RETURN v_first_date;
+END;
+/
+
+
+18. Calcular el total de stock en el inventario
+sql
+Copiar código
+CREATE OR REPLACE FUNCTION calculate_total_stock RETURN INT IS
+    v_total_stock INT;
+BEGIN
+    SELECT SUM(stock_quantity)
+    INTO v_total_stock
+    FROM products;
+    RETURN v_total_stock;
+END;
+/
+
+
+19. Obtener el nombre de la categoría de un producto
+sql
+Copiar código
+CREATE OR REPLACE FUNCTION get_category_name(
+    p_product_id IN INT
+) RETURN VARCHAR IS
+    v_category_name VARCHAR(255);
+BEGIN
+    SELECT c.name
+    INTO v_category_name
+    FROM categories c
+    JOIN products p ON c.category_id = p.category_id
+    WHERE p.product_id = p_product_id;
+    RETURN v_category_name;
+END;
+/
+
+
+20. Calcular el precio total de un pedido a proveedores
+sql
+Copiar código
+CREATE OR REPLACE FUNCTION calculate_supplier_order_total(
+    p_supplier_order_id IN INT
+) RETURN DECIMAL IS
+    v_total DECIMAL(10, 2);
+BEGIN
+    SELECT SUM(quantity * unit_price)
+    INTO v_total
+    FROM supplier_order_details
+    WHERE supplier_order_id = p_supplier_order_id;
+    RETURN v_total;
+END;
+/
+
+
+21. Determinar si un cliente es frecuente (más de 5 pedidos)
+sql
+Copiar código
+CREATE OR REPLACE FUNCTION is_frequent_customer(
+    p_customer_id IN INT
+) RETURN VARCHAR IS
+    v_order_count INT;
+BEGIN
+    SELECT COUNT(*)
+    INTO v_order_count
+    FROM orders
+    WHERE customer_id = p_customer_id;
+    RETURN CASE WHEN v_order_count > 5 THEN 'Yes' ELSE 'No' END;
+END;
+/
+
+
+22. Obtener el producto más caro de una categoría
+sql
+Copiar código
+CREATE OR REPLACE FUNCTION get_most_expensive_product_in_category(
+    p_category_id IN INT
+) RETURN VARCHAR IS
+    v_product_name VARCHAR(255);
+BEGIN
+    SELECT name
+    INTO v_product_name
+    FROM products
+    WHERE category_id = p_category_id
+    AND price = (SELECT MAX(price) FROM products WHERE category_id = p_category_id);
+    RETURN v_product_name;
+END;
+/
+
+
+23. Calcular el monto total de ventas en un período
+sql
+Copiar código
+CREATE OR REPLACE FUNCTION calculate_sales_in_period(
+    p_start_date IN DATE,
+    p_end_date IN DATE
+) RETURN DECIMAL IS
+    v_sales_total DECIMAL(10, 2);
+BEGIN
+    SELECT SUM(total_amount)
+    INTO v_sales_total
+    FROM orders
+    WHERE order_date BETWEEN p_start_date AND p_end_date;
+    RETURN v_sales_total;
+END;
+/
+
+
+24. Obtener la cantidad de productos con bajo stock
+sql
+Copiar código
+CREATE OR REPLACE FUNCTION count_low_stock_products(
+    p_min_stock IN INT
+) RETURN INT IS
+    v_count INT;
+BEGIN
+    SELECT COUNT(*)
+    INTO v_count
+    FROM products
+    WHERE stock_quantity < p_min_stock;
+    RETURN v_count;
+END;
+/
+
+
+25. Obtener el proveedor más frecuente de pedidos
+sql
+Copiar código
+CREATE OR REPLACE FUNCTION get_most_frequent_supplier RETURN VARCHAR IS
+    v_supplier_name VARCHAR(255);
+BEGIN
+    SELECT s.name
+    INTO v_supplier_name
+    FROM suppliers s
+    JOIN supplier_orders so ON s.supplier_id = so.supplier_id
+    GROUP BY s.name
+    ORDER BY COUNT(so.supplier_order_id) DESC
+    FETCH FIRST 1 ROWS ONLY;
+    RETURN v_supplier_name;
+END;
+/
+
+Sí, todas estas funciones están escritas en PL/SQL, el lenguaje de programación que utiliza Oracle, por lo que deberían funcionar perfectamente en tu base de datos de Oracle. Sin embargo, hay algunos detalles que podrías necesitar verificar o ajustar dependiendo de tu configuración específica:
+
+Aspectos a revisar:
+Estructura de las tablas:
+Asegúrate de que las tablas y columnas mencionadas en las funciones coincidan con las de tu base de datos.
+Por ejemplo, revisa que los nombres de las tablas (products, orders, etc.) y columnas (price, stock_quantity, etc.) sean exactamente como se describen en tu proyecto.
+Tipos de datos:
+Los tipos de datos como DECIMAL y VARCHAR son compatibles con Oracle, pero Oracle generalmente usa:
+NUMBER en lugar de DECIMAL.
+VARCHAR2 en lugar de VARCHAR.
+Puedes reemplazarlos si tu base de datos requiere estos tipos de datos.
+Ejemplo:
+sql
+Copiar código
+RETURN NUMBER IS
+
+
+Manejo de claves foráneas:
+Asegúrate de que las relaciones entre tablas, como claves foráneas y referencias, estén bien definidas para evitar errores en las consultas dentro de las funciones.
+Compatibilidad de consultas:
+Las funciones como FETCH FIRST 1 ROWS ONLY (utilizada en la función 25) requieren Oracle 12c o superior. Si estás usando una versión anterior, puedes reemplazarla por:
+sql
+Copiar código
+AND ROWNUM = 1
+
+
+
+Prueba de las funciones:
+Recomendación: Antes de implementar todas las funciones, prueba cada una por separado para verificar que se ejecuten correctamente en tu entorno.
+Usa un bloque BEGIN para ejecutar y depurar:
+sql
+Copiar código
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(get_total_price(1, 10));
+END;
+/
