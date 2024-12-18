@@ -50,45 +50,71 @@ $supplierOrderDetails = $supplierOrderDetailsObj->getAllSupplierOrderDetails();
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
+    <title>Super</title>
     <meta charset="UTF-8">
-    <title>Supplier Order Details CRUD</title>
+    <link href="css/estilos.css" rel="stylesheet" type="text/css"/>
 </head>
+<body style="background-color: #F5EEDC; background-size: cover;">
+
+
+
+    <header>
+        <h1>Super Grupo#4 CR</h1>
+        <nav>
+            <ul>
+                <li><a href="index.php">Inicio</a></li>
+                <li><a href="index_category.php">Categorias</a></li>
+                <li><a href="index_customer.php">Clientes</a></li>
+                <li><a href="index_departments.php">Departamentos</a></li>
+                <li><a href="index_employees.php">Empleado</a></li> 
+                <li><a href="index_orderDetails.php">Orden con detalles</a></li>  
+                <li><a href="index_orders.php"><Obj>Ordenes</Obj></a></li>              
+                <li><a href="index_products.php">Productos</a></li>              
+                <li><a href="index_supplier_orderd.php">Orden de Proovedores con detalle</a></li>              
+                <li><a href="index_suppliers_orders.php">Orden de Proovedores</a></li>              
+                <li><a href="index_suppliers.php">Proovedores</a></li>              
+
+             
+            </ul>
+        </nav>
+    </header>
+
 <body>
-    <h1>Supplier Order Details Management</h1>
+    <h1>Gestion de ordenes detalle de proveedor </h1>
 
     <?php if ($message): ?>
         <p style="color: green;"><?php echo $message; ?></p>
     <?php endif; ?>
 
     <!-- Form for adding/updating supplier order details -->
-    <h2>Add/Update Supplier Order Detail</h2>
+    <h2>Agregar/actualizar orden de proovedor </h2>
     <form method="POST" action="">
-        <label for="supplier_order_detail_id">ID (for update):</label>
+        <label for="supplier_order_detail_id">ID (para actualizar):</label>
         <input type="number" name="supplier_order_detail_id" id="supplier_order_detail_id" placeholder="Only for update"><br><br>
-        <label for="supplier_order_id">Supplier Order ID:</label>
+        <label for="supplier_order_id">Proveedor Order ID:</label>
         <input type="number" name="supplier_order_id" id="supplier_order_id" required><br><br>
-        <label for="product_id">Product ID:</label>
+        <label for="product_id">Producto ID:</label>
         <input type="number" name="product_id" id="product_id" required><br><br>
-        <label for="quantity">Quantity:</label>
+        <label for="quantity">Cantidad:</label>
         <input type="number" name="quantity" id="quantity" required><br><br>
-        <label for="unit_price">Unit Price:</label>
+        <label for="unit_price"> Precio:</label>
         <input type="number" name="unit_price" id="unit_price" step="0.01" required><br><br>
-        <button type="submit" name="action" value="add">Add</button>
-        <button type="submit" name="action" value="update">Update</button>
+        <button type="submit" name="action" value="add">agregar</button>
+        <button type="submit" name="action" value="update">actualizar</button>
     </form>
 
     <!-- Form for deleting a supplier order detail -->
-    <h2>Delete Supplier Order Detail</h2>
+    <h2>Borrar  orden detalle proveedor </h2>
     <form method="POST" action="">
-        <label for="delete_supplier_order_detail_id">ID of the Supplier Order Detail to delete:</label>
+        <label for="delete_supplier_order_detail_id">ID proveedor Orden Detaille para eliminar:</label>
         <input type="number" name="supplier_order_detail_id" id="delete_supplier_order_detail_id" required><br><br>
         <button type="submit" name="action" value="delete">Delete</button>
     </form>
 
     <!-- Show all supplier order details -->
-    <h2>List of Supplier Order Details</h2>
+    <h2> Lista orden de proovedor </h2>
     <table border="1" cellspacing="0" cellpadding="5">
         <tr>
             <th>ID</th>

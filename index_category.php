@@ -44,13 +44,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 // Obtener todas las categorías después de cada operación
 $categories = $category->getAllCategories();
 ?>
-
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
+    <title>Super</title>
     <meta charset="UTF-8">
-    <title>CRUD Categorías</title>
+    <link href="css/estilos.css" rel="stylesheet" type="text/css"/>
 </head>
+<body style="background-color: #F5EEDC; background-size: cover;">
+
+
+
+    <header>
+        <h1>Super Grupo#4 CR</h1>
+        <nav>
+            <ul>
+                <li><a href="index.php">Inicio</a></li>
+                <li><a href="index_category.php">Categorias</a></li>
+                <li><a href="index_customer.php">Clientes</a></li>
+                <li><a href="index_departments.php">Departamentos</a></li>
+                <li><a href="index_employees.php">Empleado</a></li> 
+                <li><a href="index_orderDetails.php">Orden con detalles</a></li>  
+                <li><a href="index_orders.php"><Obj>Ordenes</Obj></a></li>              
+                <li><a href="index_products.php">Productos</a></li>              
+                <li><a href="index_supplier_orderd.php">Orden de Proovedores con detalle</a></li>              
+                <li><a href="index_suppliers_orders.php">Orden de Proovedores</a></li>              
+                <li><a href="index_suppliers.php">Proovedores</a></li>              
+
+             
+            </ul>
+        </nav>
+    </header>
+
 <body>
     <h1>Administración de Categorías</h1>
 
@@ -58,10 +83,9 @@ $categories = $category->getAllCategories();
         <p style="color: green;"><?php echo $message; ?></p>
     <?php endif; ?>
 
-    <!-- Formulario para agregar/modificar una categoría -->
     <h2>Agregar/Actualizar Categoría</h2>
     <form method="POST" action="">
-        <input type="hidden" name="action" value="add"> <!-- Acción por defecto: agregar -->
+        <input type="hidden" name="action" value="add">
         <label for="id">ID (para actualizar):</label>
         <input type="number" name="id" id="id" placeholder="Solo para actualizar"><br><br>
         <label for="name">Nombre:</label>
@@ -72,7 +96,6 @@ $categories = $category->getAllCategories();
         <button type="submit" name="action" value="update">Actualizar</button>
     </form>
 
-    <!-- Formulario para eliminar una categoría -->
     <h2>Eliminar Categoría</h2>
     <form method="POST" action="">
         <input type="hidden" name="action" value="delete">

@@ -54,13 +54,38 @@ $employees = $employee->getAllEmployees();
 $departments = $employee->getAllDepartments(); // Función que ahora se define correctamente
 
 ?>
-
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
+    <title>Super</title>
     <meta charset="UTF-8">
-    <title>CRUD Empleados</title>
+    <link href="css/estilos.css" rel="stylesheet" type="text/css"/>
 </head>
+<body style="background-color: #F5EEDC; background-size: cover;">
+
+
+
+    <header>
+        <h1>Super Grupo#4 CR</h1>
+        <nav>
+            <ul>
+                <li><a href="index.php">Inicio</a></li>
+                <li><a href="index_category.php">Categorias</a></li>
+                <li><a href="index_customer.php">Clientes</a></li>
+                <li><a href="index_departments.php">Departamentos</a></li>
+                <li><a href="index_employees.php">Empleado</a></li> 
+                <li><a href="index_orderDetails.php">Orden con detalles</a></li>  
+                <li><a href="index_orders.php"><Obj>Ordenes</Obj></a></li>              
+                <li><a href="index_products.php">Productos</a></li>              
+                <li><a href="index_supplier_orderd.php">Orden de Proovedores con detalle</a></li>              
+                <li><a href="index_suppliers_orders.php">Orden de Proovedores</a></li>              
+                <li><a href="index_suppliers.php">Proovedores</a></li>              
+
+             
+            </ul>
+        </nav>
+    </header>
+
 <body>
     <h1>Administración de Empleados</h1>
 

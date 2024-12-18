@@ -1,0 +1,372 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+body {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  margin: 0;
+  padding: 0;
+  background-color: #75d02a;
+}
+
+header {
+  background-color: #2c5f2c;
+  color: #fff;
+  padding: 15px 0;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+  padding: 15px 0;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+nav ul li {
+  display: inline;
+  margin: 0 10px;
+}
+
+nav ul li a {
+  color: #ffffff;
+  text-decoration: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+}
+
+nav ul li a:hover {
+  background-color: #f2c94c;
+}
+
+.nav-buttons {
+  display: inline-block;
+  margin-left: 20px;
+}
+
+.nav-buttons .btn {
+  margin-left: 10px;
+  padding: 5px 10px;
+  border-radius: 3px;
+  text-decoration: none;
+  color: #2C5F2D;
+  border: 1px solid #FFFFFF;
+}
+
+.nav-buttons .btn-outline-light {
+  background-color: transparent;
+  color: #ffffff;
+}
+
+.nav-buttons .btn-outline-light:hover {
+  background-color: #f2c94c;
+  color: #2C5F2D;
+  border-color: #f2c94c;
+}
+
+.nav-buttons .btn-light {
+  background-color: #ffffff;
+  color: #2C5F2D;
+}
+
+.nav-buttons .btn-light:hover {
+  background-color: #f2c94c;
+  color: #2C5F2D;
+  border-color: #f2c94c;
+}
+
+main {
+  padding: 20px;
+}
+
+section {
+  margin-bottom: 20px;
+  background-color: #55a239;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+h2 {
+  color: #020202;
+  text-align: center;
+}
+
+p {
+  color: #000000;
+}
+
+.services {
+  padding: 20px 0;
+}
+
+.service-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap; /* Para que los elementos se ajusten si hay muchos */
+}
+
+.service-box {
+  margin: 10px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  text-align: center;
+  max-width: 30vmax; /*Jeffry: era 40% pero mejor usar vmax para que se adpate a pantallas verticales (celulares)*/
+  box-sizing: border-box; /* Asegura que el padding y border se incluyan en el ancho y alto */
+}
+
+.service-box img {
+  width: 100%; /* Ajusta la imagen al ancho del contenedor */
+  height: 200px; /* Fija la altura de las imágenes */
+  object-fit: cover; /* Asegura que la imagen se ajuste bien al contenedor */
+  border-radius: 5px;
+}
+
+.service-box h3 {
+  margin: 10px 0;
+  color: #333;
+}
+
+.service-box p {
+  color: #666;
+}
+
+footer {
+  text-align: center;
+  position: fixed;
+  background-color: black;
+  color: white;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding: 10px;
+}
+
+.footer {
+  text-align: center;
+  padding: 1rem 0;
+  background-color: #f8f9fa;
+}
+
+.footer .nav-menu {
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.footer p {
+  margin: 0;
+  color: #6c757d;
+}
+
+.card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-title , .card-text {
+  color: #2C5F2D;
+  margin-bottom: 15px;
+}
+
+.btn-primary {
+  background-color: #2C5F2D;
+  border-color: #2C5F2D;
+}
+
+.btn-outline-secondary {
+  color: #A67B5B;
+  border-color: #A67B5B;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #A67B5B;
+  color: #FFFFFF;
+}
+
+.container {
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+}
+
+.card-img-top {
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.modal-header {
+  background-color: #8ABF76;
+  color: #FFFFFF;
+}
+
+.modal-footer {
+  background-color: #F5EEDC;
+}
+
+.btn-floating {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+div#carrito-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+
+table#carrito-table {
+  border-radius: 10px;
+  width: 100%;
+
+}
+
+table#carrito-table td {
+  background-color: #F5EEDC;
+}
+
+table#carrito-table th, table#carrito-table td {
+  padding: 10px;
+  border: 1px solid black;
+}
+
+table#carrito-table th {
+  background-color: #2c5f2c;
+  color: white;
+}
+
+div#carrito-container button {
+  border: none;
+  background: none;
+  background-color: white;
+  color: #333;
+  padding: 5px;
+  border-radius: 5px;
+  transition: background-color, color .2s;
+}
+
+div#carrito-container button:hover {
+  background-color: #333;
+  color: white;
+}
+
+div#acciones-carrito {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+div#acciones-carrito > h1 {
+  flex-grow: 1;
+}
+div#carrito-container > h1 {
+  color: white;
+  margin: 0;
+}
+div#acciones-carrito > button {
+  padding: 0 20px;
+}
+
+a#carrito {
+  padding: 10px;
+  background-color: white;
+  color: #333;
+  transition: background-color, color .2s;
+  border-radius: 10px;
+}
+
+a#carrito:hover {
+  background-color: #333;
+  color: white;
+}
+.message {
+  color: red;
+  font-weight: bold;
+  text-align: center;
+}
+
+#facturarModal .modal-body {
+  background-color: white;
+}
+
+section {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+table, th, td {
+  border: 1px solid #ddd;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #2c5f2c;
+  color: white;
+}
+
+.btn-view-invoices {
+  background-color: #2C5F2D;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 3px;
+  text-decoration: none;
+}
+
+.btn-view-invoices:hover {
+  background-color: #1d3c1d;
+}
+
+div#perfil-container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: fit-content;
+}
+
+div#perfil-container > span {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+div#perfil-container > span > b {
+  flex-grow: 1;
+}
