@@ -5,13 +5,11 @@ class Category {
     private $db;
     private $conn;
 
-    // Constructor: Inicializa la conexión a la base de datos
     public function __construct() {
         $this->db = new Database();
         $this->conn = $this->db->connect();
     }
 
-    // Obtener todas las categorías (READ)
     public function getAllCategories() {
         $query = "SELECT category_id, name, description FROM categories";
         $stmt = oci_parse($this->conn, $query);
@@ -29,58 +27,85 @@ class Category {
         return $categories;
     }
 
-    // Agregar una nueva categoría (CREATE)
     public function addCategory($name, $description) {
-        $query = "INSERT INTO categories (name, description) VALUES (:name, :description)";
-        $stmt = oci_parse($this->conn, $query);
-
-        oci_bind_by_name($stmt, ":name", $name);
-        oci_bind_by_name($stmt, ":description", $description);
-
-        if (!oci_execute($stmt)) {
-            $error = oci_error($stmt);
-            die("Error al agregar categoría: " . $error['message']);
+        try {
+            $query = "
+                BEGIN
+                    INSERT INTO categories (name, description)
+                    VALUES (:name, :description);
+                END;
+            ";
+            $stmt = oci_parse($this->conn, $query);
+    
+            oci_bind_by_name($stmt, ":name", $name);
+            oci_bind_by_name($stmt, ":description", $description);
+    
+            if (!oci_execute($stmt, OCI_COMMIT_ON_SUCCESS)) {
+                $error = oci_error($stmt);
+                throw new Exception("Error al agregar categoría: " . $error['message']);
+            }
+    
+            echo "Categoría agregada correctamente.";
+        } catch (Exception $e) {
+            echo "No se pudo agregar la categoría. Detalles: " . $e->getMessage();
         }
-
-        echo "Categoría agregada correctamente.";
     }
+    
 
-    // Modificar una categoría existente (UPDATE)
     public function updateCategory($id, $name, $description) {
-        $query = "UPDATE categories SET name = :name, description = :description WHERE category_id = :id";
-        $stmt = oci_parse($this->conn, $query);
-
-        oci_bind_by_name($stmt, ":id", $id);
-        oci_bind_by_name($stmt, ":name", $name);
-        oci_bind_by_name($stmt, ":description", $description);
-
-        if (!oci_execute($stmt)) {
-            $error = oci_error($stmt);
-            die("Error al modificar categoría: " . $error['message']);
+        try {
+            $query = "
+                BEGIN
+                    UPDATE categories
+                    SET name = :name, description = :description
+                    WHERE category_id = :id;
+                END;
+            ";
+            $stmt = oci_parse($this->conn, $query);
+    
+            oci_bind_by_name($stmt, ":id", $id);
+            oci_bind_by_name($stmt, ":name", $name);
+            oci_bind_by_name($stmt, ":description", $description);
+    
+            if (!oci_execute($stmt, OCI_COMMIT_ON_SUCCESS)) {
+                $error = oci_error($stmt);
+                throw new Exception("Error al modificar categoría: " . $error['message']);
+            }
+    
+            echo "Categoría actualizada correctamente.";
+        } catch (Exception $e) {
+            echo "No se pudo actualizar la categoría. Detalles: " . $e->getMessage();
         }
-
-        echo "Categoría actualizada correctamente.";
     }
+    
 
-    // Eliminar una categoría (DELETE)
     public function deleteCategory($id) {
-        $query = "DELETE FROM categories WHERE category_id = :id";
-        $stmt = oci_parse($this->conn, $query);
-
-        oci_bind_by_name($stmt, ":id", $id);
-
-        if (!oci_execute($stmt)) {
-            $error = oci_error($stmt);
-            die("Error al eliminar categoría: " . $error['message']);
+        try {
+            $query = "
+                BEGIN
+                    DELETE FROM categories
+                    WHERE category_id = :id;
+                END;
+            ";
+            $stmt = oci_parse($this->conn, $query);
+    
+            oci_bind_by_name($stmt, ":id", $id);
+    
+            if (!oci_execute($stmt, OCI_COMMIT_ON_SUCCESS)) {
+                $error = oci_error($stmt);
+                throw new Exception("Error al eliminar categoría: " . $error['message']);
+            }
+    
+            echo "Categoría eliminada correctamente.";
+        } catch (Exception $e) {
+            echo "No se pudo eliminar la categoría. Detalles: " . $e->getMessage();
         }
-
-        echo "Categoría eliminada correctamente.";
     }
-
-    // Destructor: Cierra la conexión
+    
     public function __destruct() {
-        $this->db->close();
+        oci_close($this->conn);
     }
+    
 }
 ?>
 

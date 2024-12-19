@@ -13,8 +13,7 @@ class SupplierOrder {
 
     public function addSupplierOrder($supplierId, $orderDate, $totalAmount) {
         try {
-            // Convertir la fecha al formato de Oracle
-            $formattedDate = date('Y-m-d', strtotime($orderDate)); // Cambia la fecha en el formato de PHP a 'YYYY-MM-DD'
+            $formattedDate = date('Y-m-d', strtotime($orderDate)); 
 
             $query = "INSERT INTO supplier_orders (supplier_id, order_date, total_amount)
                       VALUES (:supplierId, TO_DATE(:formattedDate, 'YYYY-MM-DD'), :totalAmount)";
@@ -33,7 +32,6 @@ class SupplierOrder {
         }
     }
 
-    // Función para obtener todas las órdenes de proveedores
     public function getAllSupplierOrders() {
         $query = "SELECT * FROM supplier_orders";
         $stmt = oci_parse($this->conn, $query);
@@ -46,7 +44,6 @@ class SupplierOrder {
         return $supplierOrders;
     }
 
-    // Función para eliminar una orden de proveedor
     public function deleteSupplierOrder($supplierOrderId) {
         try {
             $query = "DELETE FROM supplier_orders WHERE supplier_order_id = :supplierOrderId";
